@@ -1,11 +1,11 @@
 <template>
-  <v-container>
-    <v-layout text-xs-center wrap>
+  <v-container grid-list>
+    <v-layout text-xs-center wrap align-center>
       <v-flex xs12>
         <v-img :src="require('../assets/xmas.jpg')" class="my-3" contain height="400"></v-img>
       </v-flex>
 
-      <v-flex mb-4>
+      <v-flex mb-4 xs12>
         <h1 class="display-2 font-weight-bold mb-3">Frohe Weihnachten!</h1>
         <countdown-timer
           ereignis="Jahreswechsel"
@@ -37,14 +37,15 @@
             >
               <v-text-field
                 slot="activator"
-                v-model="date"
+                v-model="birthdayInput"
                 label="Geburtstag"
                 prepend-icon="event"
                 readonly
               ></v-text-field>
               <v-date-picker
+                locale="DE-de"
                 ref="picker"
-                v-model="date"
+                v-model="birthdayInput"
                 :max="new Date().toISOString().substr(0, 10)"
                 min="1950-01-01"
                 @change="save"
@@ -53,6 +54,15 @@
           </li>
         </ul>
         <v-btn small @click="addNameAndBirthday">Hinzufügen</v-btn>
+      </v-flex>
+      <v-flex mb-4 xs4>
+        <ul>
+          <li v-for="item in namesAndDates" :key="item.name+item.geburtstag">
+            <p>{{item.name}}</p>
+            <p>Nächster Geburtstag am {{item.birthdayFormatted}}</p>
+            <countdown-timer :ereignis="'Geburtstag'" :zielDatum="item.birthday"/>
+          </li>
+        </ul>
       </v-flex>
     </v-layout>
   </v-container>
@@ -66,17 +76,23 @@ export default {
     namesAndDates: [],
     nameInput: "",
     birthdayInput: null,
-    date: null,
     menu: false,
     endOfYear: null
   }),
   methods: {
     addNameAndBirthday() {
+      if (this.nameInput === "" || this.birthdayInput === null) return null;
+      let birthdayInputAsDate = new Date(this.birthdayInput);
+      birthdayInputAsDate.setUTCFullYear(2019);
+      //const nextBirthdayYear = birthdayInputAsDate.getTime() < Date.now() ?
       const newEntry = {
         name: this.nameInput,
-        birthday: this.birthdayInput
+        birthday: birthdayInputAsDate.getTime(),
+        birthdayFormatted: birthdayInputAsDate.toDateString()
       };
       this.namesAndDates.push(newEntry);
+      this.birthdayInput = null;
+      this.nameInput = "";
     },
     save(date) {
       this.$refs.menu.save(date);
