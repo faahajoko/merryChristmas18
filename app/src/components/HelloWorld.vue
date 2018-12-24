@@ -6,7 +6,7 @@
       </v-flex>
 
       <v-flex mb-4 xs12>
-        <h1 class="display-2 font-weight-bold mb-3">Frohe Weihnachten!</h1>
+        <h1 class="display-2 font-weight-bold mb-3">Frohe Weihnachten 2018!</h1>
         <countdown-timer
           ereignis="Jahreswechsel"
           :zielDatum="endOfYear"
