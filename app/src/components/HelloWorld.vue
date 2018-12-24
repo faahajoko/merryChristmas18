@@ -14,7 +14,7 @@
         ></countdown-timer>
       </v-flex>
 
-      <v-flex mb-4 xs4>
+      <v-flex mb-4 md4 xs12>
         <ul>
           <li>
             <v-text-field
@@ -55,7 +55,7 @@
         </ul>
         <v-btn small @click="addNameAndBirthday">Hinzufügen</v-btn>
       </v-flex>
-      <v-flex mb-4 xs4>
+      <v-flex mb-4 md4 xs12>
         <ul>
           <li v-for="item in namesAndDates" :key="item.name+item.geburtstag">
             <p>{{item.name}}</p>
